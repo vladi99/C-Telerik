@@ -167,6 +167,6 @@ namespace Market
             {
                 return priceCompareResult;
             }
-        }        
+        }
     }
 }
