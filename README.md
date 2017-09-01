@@ -1,1 +1,1 @@
-"# C-Telerik" 
+"C#-Telerik" 
