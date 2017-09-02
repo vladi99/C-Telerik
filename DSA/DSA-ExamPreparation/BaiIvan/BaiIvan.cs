@@ -8,7 +8,7 @@ namespace BaiIvan
     {
         private static Node startNode = new Node(0, 0, 0);
 
-        private static HashSet<int> visited = new HashSet<int>();
+        private static bool[] visited;
 
         private static List<Node> graph = new List<Node>();
 
@@ -17,7 +17,7 @@ namespace BaiIvan
         static void Main(string[] args)
         {
             double m = double.Parse(Console.ReadLine());
-            double n = double.Parse(Console.ReadLine());
+            int n = int.Parse(Console.ReadLine());
 
             graph.Add(startNode);
             for (int i = 0; i < n; i++)
@@ -27,18 +27,18 @@ namespace BaiIvan
             }
 
             // DFS(startNode);
-
-            Recursion(0, 0);
+            visited = new bool[n + 1];
+            Recursion(0, 0, 0);
             Console.WriteLine("{0:f2}", min * m);
         }
 
-        private static void Recursion(double distance, int index)
+        private static void Recursion(double distance, int index, int visitedCount)
         {
             if (index >= graph.Count)
             {
                 return;
             }
-            if (graph[index].X == 0 && graph[index].Y == 0 && visited.Count == graph.Count)
+            if (graph[index].X == 0 && graph[index].Y == 0 && visitedCount == graph.Count)
             {
                 if (distance < min)
                 {
@@ -46,7 +46,7 @@ namespace BaiIvan
                 }
             }
 
-            if (visited.Contains(graph[index].Id))
+            if (visited[graph[index].Id])
             {
                 return;
             }
@@ -55,11 +55,13 @@ namespace BaiIvan
             {
                 var currentDistance = CalculateDistance(graph[index], graph[(index + i) % graph.Count]);
 
-                visited.Add(graph[index].Id);
+                visitedCount++;
+                visited[graph[index].Id] = true;
                 distance += currentDistance;
-                Recursion(distance, (index + i) % graph.Count);
+                Recursion(distance, (index + i) % graph.Count, visitedCount);
                 distance -= currentDistance;
-                visited.Remove(graph[index].Id);
+                visited[graph[index].Id] = false;
+                visitedCount--;
             }
         }
 
