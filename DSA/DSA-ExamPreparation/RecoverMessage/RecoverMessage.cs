@@ -11,7 +11,7 @@ namespace RecoverMessage
             var result = TopologicalSort();
             Console.WriteLine(string.Join("", result.Select(x => (char)x)));
         }
-       
+
         private static void AddEdge(LinkedList<int>[] vertices, int from, int to)
         {
             if (vertices[from] == null)
@@ -24,16 +24,20 @@ namespace RecoverMessage
 
         static Dictionary<int, TopoNode> ReadDirectedGraph()
         {
-            var n = int.Parse(Console.ReadLine());
+            string[] input = Console.ReadLine().Split();
+            var n = int.Parse(input[0]);
+            var m = int.Parse(input[0]);
 
             var vertices = new Dictionary<int, TopoNode>();
 
-            for (var i = 0; i < n; i++)
+            for (var i = 0; i < m; i++)
             {
                 string line = Console.ReadLine();
-                if (line.Length == 1)
+
+                for (int j = 0; j < line.Length - 1; j++)
                 {
-                    var x = line[0];
+                    var x = line[j];
+                    var y = line[j + 1];
 
                     if (vertices.ContainsKey(x) == false)
                     {
@@ -43,38 +47,18 @@ namespace RecoverMessage
                             Children = new LinkedList<int>(),
                         };
                     }
-                }
-                else
-                {
-                    for (int j = 0; j < line.Length - 1; j++)
+
+                    if (vertices.ContainsKey(y) == false)
                     {
-                        var x = line[j];
-                        var y = line[j + 1];
-
-                        if (vertices.ContainsKey(x) == false)
+                        vertices[y] = new TopoNode
                         {
-                            vertices[x] = new TopoNode
-                            {
-                                ParentsCount = 0,
-                                Children = new LinkedList<int>(),
-                            };
-                        }
-
-                        if (vertices.ContainsKey(y) == false)
-                        {
-                            vertices[y] = new TopoNode
-                            {
-                                ParentsCount = 0,
-                                Children = new LinkedList<int>(),
-                            };
-                        }
-                        vertices[x].Children.AddLast(y);
-                        vertices[y].ParentsCount++;
+                            ParentsCount = 0,
+                            Children = new LinkedList<int>(),
+                        };
                     }
+                    vertices[x].Children.AddLast(y);
+                    vertices[y].ParentsCount++;
                 }
-                
-
-                
             }
 
             return vertices;
@@ -130,8 +114,9 @@ namespace RecoverMessage
             public LinkedList<int> Children { get; set; }
             public int ParentsCount { get; set; }
         }
+
         public class PriorityQueue<T>
-     where T : IComparable<T>
+            where T : IComparable<T>
         {
             private List<T> heap;
             private Func<T, T, bool> compare;

@@ -35,6 +35,5 @@ namespace ColourBalls
             }
             Console.WriteLine(result);
         }
-        
     }
 }
