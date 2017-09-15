@@ -9,67 +9,30 @@ namespace RecoverMessage
         static void Main(string[] args)
         {
             var result = TopologicalSort();
-            Console.WriteLine(string.Join("", result.Select(x => (char)x)));
         }
 
-        private static void AddEdge(LinkedList<int>[] vertices, int from, int to)
+        private static void AddEdge(LinkedList<string>[] vertices, int from, int to)
         {
             if (vertices[from] == null)
             {
-                vertices[from] = new LinkedList<int>();
+                vertices[from] = new LinkedList<string>();
             }
 
             vertices[from].AddLast(to);
         }
 
-        static Dictionary<int, TopoNode> ReadDirectedGraph()
+        static Dictionary<string, TopoNode> ReadDirectedGraph()
         {
-            string[] input = Console.ReadLine().Split();
-            var n = int.Parse(input[0]);
-            var m = int.Parse(input[0]);
-
-            var vertices = new Dictionary<int, TopoNode>();
-
-            for (var i = 0; i < m; i++)
-            {
-                string line = Console.ReadLine();
-
-                for (int j = 0; j < line.Length - 1; j++)
-                {
-                    var x = line[j];
-                    var y = line[j + 1];
-
-                    if (vertices.ContainsKey(x) == false)
-                    {
-                        vertices[x] = new TopoNode
-                        {
-                            ParentsCount = 0,
-                            Children = new LinkedList<int>(),
-                        };
-                    }
-
-                    if (vertices.ContainsKey(y) == false)
-                    {
-                        vertices[y] = new TopoNode
-                        {
-                            ParentsCount = 0,
-                            Children = new LinkedList<int>(),
-                        };
-                    }
-                    vertices[x].Children.AddLast(y);
-                    vertices[y].ParentsCount++;
-                }
-            }
-
+            var vertices = new Dictionary<string, TopoNode>();
             return vertices;
         }
 
-        private static List<int> TopologicalSort()
+        private static List<string> TopologicalSort()
         {
             var graph = ReadDirectedGraph();
             var sources = ExtractSources(graph);
 
-            var result = new List<int>();
+            var result = new List<string>();
 
             while (sources.Count > 0)
             {
@@ -83,7 +46,7 @@ namespace RecoverMessage
             return result;
         }
 
-        private static void UpdateSources(Dictionary<int, TopoNode> graph, LinkedList<int> newSources, PriorityQueue<int> sources)
+        private static void UpdateSources(Dictionary<string, TopoNode> graph, LinkedList<string> newSources, PriorityQueue<string> sources)
         {
             foreach (var newSource in newSources)
             {
@@ -95,9 +58,9 @@ namespace RecoverMessage
             }
         }
 
-        private static PriorityQueue<int> ExtractSources(Dictionary<int, TopoNode> graph)
+        private static PriorityQueue<string> ExtractSources(Dictionary<string, TopoNode> graph)
         {
-            var queue = new PriorityQueue<int>();
+            var queue = new PriorityQueue<string>();
             foreach (var vertex in graph)
             {
                 if (vertex.Value != null && vertex.Value.ParentsCount == 0)
@@ -111,7 +74,7 @@ namespace RecoverMessage
 
         class TopoNode
         {
-            public LinkedList<int> Children { get; set; }
+            public LinkedList<string> Children { get; set; }
             public int ParentsCount { get; set; }
         }
 

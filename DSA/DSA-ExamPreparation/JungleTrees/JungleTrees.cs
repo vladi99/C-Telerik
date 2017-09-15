@@ -13,7 +13,7 @@ namespace JungleTrees
             int maxX = int.Parse(firstLine[1]);
             int maxHeight = int.Parse(firstLine[2]);
 
-            List<Node> trees = new List<Node>();
+            Node[] trees = new Node[n];
             bool[] visited = new bool[n];
             Node firstNode = new Node(int.MaxValue, 0, 0, 0);
             Node lastNode = new Node(int.MinValue, 0, 0, 0);
@@ -22,7 +22,7 @@ namespace JungleTrees
             {
                 string[] line = Console.ReadLine().Split();
                 Node currentNode = new Node(int.Parse(line[0]), int.Parse(line[1]), 0, i);
-                trees.Add(currentNode);
+                trees[i] = currentNode;
                 if (currentNode.Coordinate < firstNode.Coordinate)
                 {
                     firstNode = currentNode;
@@ -42,7 +42,7 @@ namespace JungleTrees
                 var currentTree = q.Dequeue();
                 visited[currentTree.Index] = true;
 
-                for (int i = 0; i < trees.Count; i++)
+                for (int i = 0; i < trees.Length; i++)
                 {
                     var newCoordinate = trees[i].Coordinate;
                     var newHeight = trees[i].Height;
@@ -82,6 +82,5 @@ namespace JungleTrees
             this.Steps = steps;
             this.Index = index;
         }
-
     }
 }

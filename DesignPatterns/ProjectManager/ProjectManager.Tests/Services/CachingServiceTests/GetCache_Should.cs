@@ -1,0 +1,31 @@
+﻿using NUnit.Framework;
+using ProjectManager.Framework.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProjectManager.Tests.Services.CachingServiceTests
+{
+    public class GetCache_Should
+    {
+        [Test]
+        public void GetCache_WhenParametersAreCorrect()
+        {
+            // Arrange
+            var duration = new TimeSpan(30, 0, 0, 0, 0);
+            var className = "Pesho";
+            var methodName = "Pesho";
+            var cachingService = new CachingService(duration);
+            var objectForCaching = new object();
+
+            // Act
+            cachingService.AddCacheValue(className, methodName, objectForCaching);
+            var result = cachingService.GetCacheValue("Pesho", "Pesho");
+            // Assert
+            Assert.AreEqual(objectForCaching, result);
+
+        }
+    }
+}

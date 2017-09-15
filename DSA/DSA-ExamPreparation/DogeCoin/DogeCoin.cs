@@ -28,8 +28,12 @@ namespace DogeCoin
             {
                 for (int col = 0; col < m; col++)
                 {
-                    int left = 0;
-                    int up = 0;
+                    if (row == 0 && col == 0)
+                    {
+                        continue;
+                    }
+                    int left = 1000000000;
+                    int up = 1000000000;
                     if (row > 0)
                     {
                         up = matrix[row - 1, col];
@@ -38,7 +42,7 @@ namespace DogeCoin
                     {
                         left = matrix[row, col - 1];
                     }
-                    int add = Math.Max(left, up);
+                    int add = Math.Min(left, up);
                     result = add + matrix[row, col];
                     matrix[row, col] = result;
                 }
