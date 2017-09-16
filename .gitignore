@@ -186,6 +186,7 @@ ecf/
 rcf/
 
 # Windows Store app package directories and files
+App.config
 AppPackages/
 BundleArtifacts/
 Package.StoreAssociation.xml
