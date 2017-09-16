@@ -8,8 +8,6 @@
 *.user
 *.userosscache
 *.sln.docstates
-*.csproj
-Properties/
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -187,7 +185,6 @@ ecf/
 rcf/
 
 # Windows Store app package directories and files
-App.config
 AppPackages/
 BundleArtifacts/
 Package.StoreAssociation.xml
